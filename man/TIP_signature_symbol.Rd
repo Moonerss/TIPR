@@ -16,11 +16,6 @@ TIP_signature_symbol
 \description{
 A \code{list} of gene set vector get from TIP web server, all symbol
 have checked use \code{HGNChelper} package.
-
-\itemize{
-\item \code{Symbol}: All valid, Excel-mogrified, and withdrawn symbols
-\item \code{Approved.Symbol}: Approved symbols
-}
 }
 \examples{
 data("TIP_signature_symbol", package="TIPR")
