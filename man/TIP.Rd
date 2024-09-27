@@ -4,7 +4,7 @@
 \alias{TIP}
 \title{Run TIP analysis}
 \usage{
-TIP(expression, perm = 100, seed = 1234, verbose = TRUE, ncores = 1)
+TIP(expression, perm = 100, seed = 1234, verbose = TRUE)
 }
 \arguments{
 \item{expression}{expression matrix with gene in row and sample in column.
@@ -15,8 +15,6 @@ You'd better use \code{log2(tpm+1)} normalized data, or preprocess your data wit
 \item{seed}{random state,default 1234}
 
 \item{verbose}{Gives information about each calculation step. Default: TRUE.}
-
-\item{ncores}{the parallel number of cores to run analysis, default 1.}
 }
 \value{
 return a matrix with TIP activity score

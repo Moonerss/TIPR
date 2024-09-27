@@ -43,3 +43,10 @@ res <- TIP(expression = input_expr)
 head(res)
 ```
 
+You can set parallel by `future` package
+
+```{r example1}
+library(future)
+plan(multicore, workers = 3)
+res <- TIP(expression = input_expr)
+```

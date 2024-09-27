@@ -8,7 +8,6 @@
 #' @param perm permutation times, default 100
 #' @param seed random state,default 1234
 #' @param verbose Gives information about each calculation step. Default: TRUE.
-#' @param ncores the parallel number of cores to run analysis, default 1.
 #'
 #' @importFrom stringr str_subset str_split str_replace_all
 #' @importFrom purrr map_chr
@@ -24,18 +23,11 @@
 #' @return return a matrix with TIP activity score
 #'
 
-TIP <- function(expression, perm = 100, seed = 1234, verbose = TRUE, ncores = 1) {
+TIP <- function(expression, perm = 100, seed = 1234, verbose = TRUE) {
 
   # check parallel
-  ncores <- as.integer(ncores)
-  if (ncores > 1 & !requireNamespace("pbapply", quietly = TRUE)) {
+  if (future::nbrOfWorkers() > 1 & !requireNamespace("pbapply", quietly = TRUE)) {
     cli::cli_abort('parallel need `pbapply` package, please install it')
-  }
-  # set parallel
-  if (ncores > 1) {
-    if (.Platform$OS.type == "windows") {
-      cli::cli_alert_warning(cli::col_yellow('Parallel is not supported on Windows'))
-    }
   }
 
   gene_set_list <- TIPR::TIP_signature_symbol
@@ -79,10 +71,10 @@ TIP <- function(expression, perm = 100, seed = 1234, verbose = TRUE, ncores = 1)
   # build random matrix, random gene
   if (verbose) cli::cli_alert_info('Random {.val {perm}} time{?s} ...')
   sample_number <- ncol(expression)
-  if (ncores > 1) {
+  if (future::nbrOfWorkers() > 1) {
     perm_exp <- pbapply::pblapply(seq_len(perm), function(x) {
       multi_sample_permutation(expression, seed = seed)
-    }, cl = ncores)
+    }, cl = 'future')
   } else {
     perm_exp <- lapply(seq_len(perm), function(x) {
       multi_sample_permutation(expression, seed = seed)
@@ -101,7 +93,7 @@ TIP <- function(expression, perm = 100, seed = 1234, verbose = TRUE, ncores = 1)
 
   # activity score of signature sets one by one
   if (verbose) cli::cli_alert_info('Calculate activity score ...')
-  if (ncores > 1) {
+  if (future::nbrOfWorkers() > 1) {
     permutation_score <- t(pbapply::pbsapply(gene_set_list, function(sig){
       gSetIdx <- which(rownames(perm_exp) %in% sig)
       # vector of '0'and '1' show the position of signature genes in 'perm_exp'
@@ -115,7 +107,7 @@ TIP <- function(expression, perm = 100, seed = 1234, verbose = TRUE, ncores = 1)
         gSet_pos_matrix = geneSet_pos)
 
       return(score_for_oneset)
-    }, cl = ncores))
+    }, cl = 'future'))
   } else {
     permutation_score <- t(sapply(gene_set_list, function(sig){
       gSetIdx <- which(rownames(perm_exp) %in% sig)

@@ -48,3 +48,17 @@ head(res)
 #> Step4.Basophil.recruiting    -604.034790
 #> Step4.CD4 T cell.recruiting  3978.223482
 ```
+
+You can set parallel by `future` package
+
+``` r
+library(future)
+plan(multicore, workers = 3)
+res <- TIP(expression = input_expr)
+#> ℹ Filtering gene set ...
+#> ℹ Random 100 times ...
+#> Loading required namespace: future.apply
+#> ℹ Calculate activity score ...
+#> ℹ Normalize activity score ...
+#> ✔ Done
+```
