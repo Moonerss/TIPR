@@ -11,3 +11,14 @@
 #' TIP web server \url{http://biocc.hrbmu.edu.cn/TIP/index.jsp}
 #'
 "TIP_signature_symbol"
+
+#' expression matrix
+#'
+#' @description A simple expression matrix with five sample.
+#'
+#' @examples
+#' data("expression", package="TIPR")
+#' head(expression)
+#'
+#'
+"expression"
