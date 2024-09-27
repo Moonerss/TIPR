@@ -24,3 +24,10 @@ return a matrix with TIP activity score
 \description{
 Run TIP web server analysis
 }
+\examples{
+data('expression')
+input_expr <- log2(expression + 1)
+res <- TIP(expression = input_expr)
+head(res)
+
+}

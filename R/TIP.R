@@ -13,6 +13,14 @@
 #' @importFrom stringr str_subset str_split str_replace_all
 #' @importFrom purrr map_chr
 #'
+#' @export
+#'
+#' @examples
+#' data('expression')
+#' input_expr <- log2(expression + 1)
+#' res <- TIP(expression = input_expr)
+#' head(res)
+#'
 #' @return return a matrix with TIP activity score
 #'
 

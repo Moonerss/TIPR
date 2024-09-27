@@ -2,8 +2,8 @@
 # random row of matrix
 multi_sample_permutation <- function(matrix, seed = 1234) {
   set.seed(seed)
-  perm_idx <- sample(seq_len(nrow(expression)), size = nrow(expression), replace = FALSE)
-  perm_expression <- expression[perm_idx, ]
+  perm_idx <- sample(seq_len(nrow(matrix)), size = nrow(matrix), replace = FALSE)
+  perm_expression <- matrix[perm_idx, ]
   rownames(perm_expression) <- colnames(perm_expression) <- NULL
   return(perm_expression)
 }
