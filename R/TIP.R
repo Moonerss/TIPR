@@ -74,7 +74,7 @@ TIP <- function(expression, perm = 100, seed = 1234, verbose = TRUE) {
   if (future::nbrOfWorkers() > 1) {
     perm_exp <- pbapply::pblapply(seq_len(perm), function(x) {
       multi_sample_permutation(expression, seed = seed)
-    }, cl = 'future')
+    }, cl = 'future', future.seed = TRUE)
   } else {
     perm_exp <- lapply(seq_len(perm), function(x) {
       multi_sample_permutation(expression, seed = seed)
